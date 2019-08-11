@@ -67,8 +67,6 @@ void setup() {
 void loop() { 
   char caracter;
   String comando;
-    /**state = Serial.read(); // Reads the data from the serial port
-        **/
       while (Serial.available() >0){
         caracter = Serial.read();
         comando =String(comando + caracter);
@@ -81,13 +79,12 @@ void loop() {
      } 
     else if (comando.equals("D")){
       //Serial.println("DERECHA");
-          //gira media vuelta en sentido horario lento
            for (int i=0; i <= 1; i++){
                 gira_horario(3); 
              } 
       }
         comando="";
         caracter= ' ';
-        delay(50);
+        delay(100);
     }
   }

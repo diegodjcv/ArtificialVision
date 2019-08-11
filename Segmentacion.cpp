@@ -132,18 +132,18 @@ int main(int argc, char *args[]){
                 cx = iMoments.m10/iMoments.m00;
                 cy = iMoments.m01/iMoments.m00;
                 circle(seguim,Point(cx,cy), 10, Scalar(255,255,255),3);
-                int a=round((cx-320)/3);
-                if(a>1){
+                int a=round((cx-320)/5);
+                if(a>5){
                     cout << "D" << endl;
                     my_serial_stream << 'D' ;
                 }else{
-                    if(a<-1){
+                    if(a<-5){
                         cout << "I" << endl;
                         my_serial_stream << 'I' ;
                     }
                 }
             }
-            usleep(50);
+            usleep(100);
             cv::flip(seguim,seguim,1);
             cv::flip(segmentada,segmentada,1);
             imshow("segmentada",segmentada);
