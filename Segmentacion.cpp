@@ -9,8 +9,6 @@
 #include <opencv2/imgcodecs/imgcodecs.hpp>
 #include <math.h>
 
-#include <unistd.h>
-
 #include <SerialStream.h>
 
 using namespace std;
@@ -51,10 +49,6 @@ double distancia(double a1[7], double a2[7]){
     }
     
     return sqrt(suma);
-}
-
-void delay(int secs) {
-  for(int i = (time(NULL) + secs); time(NULL) != i; time(NULL));
 }
 
 
@@ -113,6 +107,7 @@ int main(int argc, char *args[]){
             medianBlur ( vtn1, vtn2, 5 );
             erode(vtn2, vtn3, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)) );
             dilate( vtn3, imagen, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)) ); 
+            Canny( imagen, imagen, 0, 300, Size(5, 5) );
             
             inRange(imagen,Scalar(hMin,sMin,vMin),Scalar(hMax,sMax,vMax),segmentada);
             
@@ -132,18 +127,18 @@ int main(int argc, char *args[]){
                 cx = iMoments.m10/iMoments.m00;
                 cy = iMoments.m01/iMoments.m00;
                 circle(seguim,Point(cx,cy), 10, Scalar(255,255,255),3);
-                int a=round((cx-320)/5);
-                if(a>5){
-                    cout << "D" << endl;
+                int a=round((cx-320)/3);
+                delay(100);  
+                if(a>1){
+                    //cout << "D" << endl;
                     my_serial_stream << 'D' ;
                 }else{
-                    if(a<-5){
-                        cout << "I" << endl;
+                    if(a<-1){
+                        //cout << "I" << endl;
                         my_serial_stream << 'I' ;
                     }
                 }
             }
-            usleep(100);
             cv::flip(seguim,seguim,1);
             cv::flip(segmentada,segmentada,1);
             imshow("segmentada",segmentada);
@@ -152,7 +147,6 @@ int main(int argc, char *args[]){
                 my_serial_stream.Close() ;
                 break;
             }
-            
         }
    }
     return 0;
